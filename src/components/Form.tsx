@@ -2,6 +2,7 @@ import { useState } from "react";
 
 const Form = () => {
 	const [files, setFiles] = useState<FormData>();
+	const [uploadStatus, setUploadStatus] = useState("");
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		event.preventDefault();
@@ -23,11 +24,14 @@ const Form = () => {
 			method: "POST",
 			body: files,
 		}).then((res) => {
-			res.json().then((d) => {
-				console.log(d);
+			res.json().then((data) => {
+				console.log(data);
+				setUploadStatus(data.responseMessage);
 			});
 		});
 	};
+
+	const edit = () => {};
 
 	return (
 		<div>
@@ -42,6 +46,7 @@ const Form = () => {
 				value="Upload"
 				onClick={(event) => handleSubmit(event)}
 			/>
+			{uploadStatus}
 		</div>
 	);
 };
