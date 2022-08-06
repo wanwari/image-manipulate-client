@@ -21,6 +21,7 @@ const Form = () => {
 		event.preventDefault();
 
 		fetch("http://localhost:3000/upload", {
+			credentials: "include",
 			method: "POST",
 			body: files,
 		}).then((res) => {
@@ -31,7 +32,19 @@ const Form = () => {
 		});
 	};
 
-	const edit = () => {};
+	const edit = () => {
+		fetch("http://localhost:3000/edit", {
+			credentials: "include",
+			method: "POST",
+			headers: { "content-type": "application/json" },
+			body: JSON.stringify({
+				operations: ["negate", "flip"],
+				fileFormat: "png",
+			}),
+		}).then((res) => {
+			console.log(res);
+		});
+	};
 
 	return (
 		<div>
@@ -47,6 +60,8 @@ const Form = () => {
 				onClick={(event) => handleSubmit(event)}
 			/>
 			{uploadStatus}
+
+			<input type="submit" value="Edit" onClick={() => edit()} />
 		</div>
 	);
 };
